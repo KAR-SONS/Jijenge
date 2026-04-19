@@ -1,8 +1,7 @@
 import React from 'react'
 import { Home, List, LayoutDashboard } from 'lucide-react'
 
-const BottomNavbar = () => {
-    const [activeTab, setActiveTab] = React.useState('home')
+const BottomNavbar = ({ activeTab, setActiveTab }) => {
     const NavButton = ({ label, Icon, active, onClick }) => (
         <button
           className={`flex flex-col items-center justify-center gap-1 ${
