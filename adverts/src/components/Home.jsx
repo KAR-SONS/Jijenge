@@ -4,6 +4,7 @@ import BottomNavbar from './BottomNavbar'
 import Hero from '../Tabs/Hero'
 import Tasks from '../Tabs/Tasks'
 import Dashboard from '../Tabs/Dashboard'
+import ProtectedRoute from './ProtectedRoute'
 
 const Home = () => {
    const [activeTab, setActiveTab] = useState('home')
@@ -14,8 +15,10 @@ const Home = () => {
         <BottomNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
         <main className="flex-1">
           {activeTab === 'home' && <Hero />}
+          <ProtectedRoute>
           {activeTab === 'tasks' && <Tasks/>}
           {activeTab === 'dashboard' && <Dashboard/>}
+          </ProtectedRoute>
       </main>
     </div>
   )

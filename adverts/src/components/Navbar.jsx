@@ -1,7 +1,12 @@
 import React from 'react'
 import { Zap } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const handleNavigate = () => {
+    navigate('/login')
+  }
   return (
 <header className="border-b border-[#2d3748] bg-[#1a1f2e]/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,6 +17,18 @@ const Navbar = () => {
             </div>
             <span className="text-xl font-bold text-[#06b6d4]">Jijenge</span>
           </div>
+
+           <div className="flex items-center gap-3">
+            <button
+              onClick={handleNavigate}
+              variant="outline"
+              size="sm"
+              className="border border-[#06b6d4] text-[#06b6d4] hover:bg-[#06b6d4] hover:text-[#0f1419] transition-colors duration-300 rounded-md px-3 py-1"
+            >
+              Sign In
+            </button>
+          </div>
+
         </div>
       </div>
     </header>

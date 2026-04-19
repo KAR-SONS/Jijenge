@@ -1,13 +1,67 @@
+import React,{useState,useEffect} from 'react'
 import { Award, Target, TrendingUp,DollarSign } from 'lucide-react'
-import React from 'react'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../context/AuthContext'
+
+
 
 const Dashboard = () => {
+   const { user } = useAuth()
+
+  const [profile, setProfile] = useState(null)
+  const [transactions, setTransactions] = useState([])
+  const [stats, setStats] = useState({
+    completed: 0,
+    pending: 0,
+    rejected: 0
+  })
+
+  useEffect(() => {
+    if (user) {
+      fetchData()
+    }
+  }, [user])
+
+  const fetchData = async () => {
+    // 1. Fetch user profile
+    const { data: profileData } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single()
+
+    setProfile(profileData)
+
+    // 2. Fetch transactions
+    const { data: txData } = await supabase
+      .from('points_transactions')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(5)
+
+    setTransactions(txData || [])
+
+    // 3. Fetch submissions stats
+    const { data: submissions } = await supabase
+      .from('task_submissions')
+      .select('status')
+      .eq('user_id', user.id)
+
+    const completed = submissions.filter(s => s.status === 'approved').length
+    const pending = submissions.filter(s => s.status === 'pending').length
+    const rejected = submissions.filter(s => s.status === 'rejected').length
+
+    setStats({ completed, pending, rejected })
+  }
+  const balance = profile?.points_balance * 0.3 // Assuming 1 point = Kes 0.3
+
   return (
     <div className="min-h-screen bg-[#0f1419] py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-[#e5e7eb] mb-2">Welcome back, User Name!</h1>
+          <h1 className="text-4xl font-bold text-[#e5e7eb] mb-2">Welcome back, {profile?.name || 'User'}</h1>
           <p className="text-[#9ca3af]">Here&apos;s your performance overview</p>
         </div>
 
@@ -18,7 +72,7 @@ const Dashboard = () => {
                 <TrendingUp className='w-6 h-6' />
               </div>
               <p className="text-sm text-[#9ca3af] mb-2">Total Points</p>
-              <p className="text-3xl font-bold text-[#e5e7eb] mb-2">200</p>
+              <p className="text-3xl font-bold text-[#e5e7eb] mb-2"> {profile?.points_balance || 0}</p>
               <p className="text-xs text-[#9ca3af]">All time earned</p>
            </div>
 
@@ -27,7 +81,7 @@ const Dashboard = () => {
                 <Award className='w-6 h-6' />
               </div>
               <p className="text-sm text-[#9ca3af] mb-2">Completed Tasks</p>
-              <p className="text-3xl font-bold text-[#e5e7eb] mb-2">12</p>
+              <p className="text-3xl font-bold text-[#e5e7eb] mb-2">{stats.completed}</p>
               <p className="text-xs text-[#9ca3af]">All time earned</p>
            </div>
 
@@ -36,7 +90,7 @@ const Dashboard = () => {
                 <Target className='w-6 h-6' />
               </div>
               <p className="text-sm text-[#9ca3af] mb-2">Available to Withdraw</p>
-              <p className="text-3xl font-bold text-[#e5e7eb] mb-2">Kes 60</p>
+              <p className="text-3xl font-bold text-[#e5e7eb] mb-2">Kes {balance.toFixed(2)}</p>
               <p className="text-xs text-[#9ca3af]">Ready to cash out at 500 pts</p>
            </div>
 
@@ -56,7 +110,7 @@ const Dashboard = () => {
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <p className="text-sm text-[#9ca3af] mb-2">Available Balance</p>
-                  <p className="text-4xl font-bold text-[#06b6d4]">Kes 60</p>
+                  <p className="text-4xl font-bold text-[#06b6d4]">Kes {balance.toFixed(2)}</p>
                 </div>
                 <div className="w-14 h-14 rounded-xl bg-[#06b6d4]/30 flex items-center justify-center">
                   <DollarSign className="w-8 h-8 text-[#06b6d4]" />
