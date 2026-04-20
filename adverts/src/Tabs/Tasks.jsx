@@ -2,11 +2,14 @@ import { Play } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
+import BottomNavbar from '../components/BottomNavbar'
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
+  const [completedTasks, setCompletedTasks] = useState([])
   const navigate = useNavigate()
+  const [tasksDoneToday, setTasksDoneToday] = useState(0)
 
   useEffect(() => {
     fetchTasks()
@@ -29,8 +32,44 @@ const Tasks = () => {
     setLoading(false)
   }
 
+  const fetchCompletedTasks = async () => {
+    const { data: sessionData } = await supabase.auth.getSession()
+    const user = sessionData.session.user
+
+    const { data, error } = await supabase
+      .from('task_submissions')
+      .select('task_id')
+      .eq('user_id', user.id)
+
+    if (!error) {
+      setCompletedTasks(data.map(item => item.task_id))
+    }
+  }
+
+  const fetchTodayCount = async () => {
+  const { data: sessionData } = await supabase.auth.getSession()
+  const user = sessionData.session.user
+
+  const today = new Date().toISOString().split('T')[0]
+
+  const { data } = await supabase
+    .from('task_submissions')
+    .select('id')
+    .eq('user_id', user.id)
+    .gte('created_at', `${today}T00:00:00`)
+    .lte('created_at', `${today}T23:59:59`)
+
+  setTasksDoneToday(data.length)
+}
+
+  useEffect(() => {
+    fetchTasks()
+    fetchCompletedTasks()
+    fetchTodayCount()
+  }, [])
+
   return (
-    <div className="min-h-screen bg-[#0f1419] py-12">
+    <div className="min-h-screen bg-[#0f1419] py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -38,6 +77,9 @@ const Tasks = () => {
           <h1 className="text-4xl font-bold text-[#e5e7eb] mb-4">Available Tasks</h1>
           <p className="text-[#9ca3af] text-lg mb-8">
             Complete any task to earn points. No limits, no catches—just pure rewards.
+          </p>
+          <p className="text-[#06b6d4] font-semibold">
+            Tasks today: {tasksDoneToday} / 5
           </p>
         </div>
 
@@ -64,7 +106,7 @@ const Tasks = () => {
 
                 {/* Description */}
                 <p className="text-sm text-[#9ca3af] mb-4 line-clamp-2">
-                  {task.description}
+                  {task.instructions || 'No description provided.'}
                 </p>
 
                 {/* Points + Type */}
@@ -85,10 +127,18 @@ const Tasks = () => {
 
                 <button 
                 className="h-9 px-4 py-2 w-full rounded-md bg-[#06b6d4] text-[#0f1419] hover:bg-cyan-500"
-                disabled={task.remaining_slots <= 0}
+                 disabled={
+                  tasksDoneToday >= 5 ||
+                  task.remaining_slots <= 0 ||
+                  completedTasks.includes(task.id)
+                }
                 onClick={() => navigate(`/task/watch/${task.id}`)}
                 >
-                  Run Task
+                 {tasksDoneToday >= 5
+                  ? "Daily limit reached"
+                  : completedTasks.includes(task.id)
+                  ? "Completed"
+                  : "Run Task"}
                 </button>
               </div>
             ))}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { Eye, EyeOff } from 'lucide-react'
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Signup = () => {
   })
 
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
@@ -71,13 +73,22 @@ const Signup = () => {
               className="text-white font-semibold w-full mb-4 p-3 bg-[#2d3748] rounded-md"
             />
 
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              onChange={handleChange}
-              className="text-white font-semibold w-full mb-4 p-3 bg-[#2d3748] rounded-md"
-            />
+            <div className="relative mb-4">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                onChange={handleChange}
+                className="text-white font-semibold w-full p-3 bg-[#2d3748] rounded-md pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
 
             <input
               id="phone"

@@ -56,6 +56,47 @@ const Dashboard = () => {
   }
   const balance = profile?.points_balance * 0.3 // Assuming 1 point = Kes 0.3
 
+  const handleWithdraw = async () => {
+  try {
+    // get current user
+    const { data: sessionData } = await supabase.auth.getSession()
+    const user = sessionData.session.user
+
+    // get user points
+    const { data: userData } = await supabase
+      .from('users')
+      .select('points_balance')
+      .eq('id', user.id)
+      .single()
+
+    if (userData.points_balance < 500) {
+      alert("❌ Not enough points to withdraw")
+      return
+    }
+
+    // send request to backend
+    const token = sessionData.session.access_token
+
+    const res = await fetch('http://localhost:8000/api/withdraw/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    const result = await res.json()
+
+    if (!res.ok) throw new Error(result.error)
+
+    alert("✅ Withdrawal request sent!")
+    window.location.reload()
+
+  } catch (err) {
+    alert(`❌ ${err.message}`)
+  }
+}
+
   return (
     <div className="min-h-screen bg-[#0f1419] py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,14 +158,14 @@ const Dashboard = () => {
                 </div>
               </div>
               <p className="text-xs text-[#9ca3af]">
-                200 points available
+                {profile?.points_balance || 0} points available
               </p>
             </div>
 
               {/* Withdrawal Button */}
               <div className="p-6 rounded-2xl bg-[#1a1f2e] border border-[#2d3748] hover:border-[#06b6d4]/50 transition-all group cursor-pointer">
                 <p className="text-sm text-[#9ca3af] mb-2">Withdraw Your Earnings</p>
-                <button className="w-full py-3 bg-gradient-to-br from-[#06b6d4] to-[#0ea5e9] text-white rounded-lg font-semibold hover:from-[#0ea5e9] hover:to-[#06b6d4] transition-colors">
+                <button onClick={handleWithdraw} className="w-full py-3 bg-gradient-to-br from-[#06b6d4] to-[#0ea5e9] text-white rounded-lg font-semibold hover:from-[#0ea5e9] hover:to-[#06b6d4] transition-colors">
                   Withdraw 500 Points (Kes 150)
                 </button>
               </div>

@@ -1,6 +1,13 @@
 import { ArrowRight, Sparkles } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Hero() {
+  const navigate = useNavigate()
+  const handleButton = () => {
+    navigate('/tasks')
+  }
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-card/20 pt-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -27,15 +34,9 @@ export default function Hero() {
               <button
                 size="lg"
                 className="inline-flex items-center justify-center gap-2 h-10 rounded-md px-6 bg-[#06b6d4] text-[#0f1419] hover:bg-cyan-500 gap-2 w-full sm:w-auto"
+                onClick={handleButton}
               >
                 Start Earning Now <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                size="lg"
-                variant="outline"
-                className="h-10 rounded-md px-6 text-[#ffffff] border border-[#2d3748] hover:border-[#06b6d4] hover:text-[#06b6d4] w-full sm:w-auto"
-              >
-                Learn More
               </button>
             </div>
 
@@ -44,10 +45,10 @@ export default function Hero() {
                 <p className="text-2xl font-bold text-[#06b6d4]">20K+</p>
                 <p className="text-sm text-[#9ca3af]">Active Users</p>
               </div>
-              {/*<div>
-                <p className="text-2xl font-bold text-[#06b6d4]">$100k+</p>
+              <div>
+                <p className="text-2xl font-bold text-[#06b6d4]">Kes 300k+</p>
                 <p className="text-sm text-[#9ca3af]">Earned & Paid</p>
-              </div>*/}
+              </div>
               <div>
                 <p className="text-2xl font-bold text-[#06b6d4]">100+</p>
                 <p className="text-sm text-[#9ca3af]">Tasks Available Daily</p>

@@ -6,7 +6,7 @@ const TaskView = () => {
   const { id } = useParams()
 
   const [task, setTask] = useState(null)
-  const [timeLeft, setTimeLeft] = useState(30)
+  const [timeLeft, setTimeLeft] = useState(60)
   const [canClaim, setCanClaim] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(null)
@@ -80,7 +80,18 @@ const TaskView = () => {
     )
 
     const videoId = match?.[1]
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : url
+
+    if (!videoId) return url
+
+    const params = new URLSearchParams({
+      controls: '0',
+      modestbranding: '1',
+      rel: '0',
+      iv_load_policy: '3',
+      disablekb: '1'
+    })
+
+    return `https://www.youtube.com/embed/${videoId}?${params.toString()}`
   }
 
   if (!task) return <div className="text-white p-6">Loading...</div>
@@ -91,20 +102,21 @@ const TaskView = () => {
       <h1 className="text-2xl mb-4">{task.title}</h1>
 
       {/* VIDEO */}
-      <div className="mb-6">
+      <div className="mb-6 p-2">
        <iframe
         width="100%"
-        height="400"
+        height="350"
         src={getEmbedUrl(task.url)}
         allow="autoplay; encrypted-media"
         allowFullScreen
+        className="rounded-lg border border-[#06b6d4]"
       />
       </div>
 
       {/* TIMER */}
       {!canClaim ? (
         <p className="text-yellow-400">
-          Watch for {timeLeft} seconds...
+          Click the red button to Watch the video for <span className="font-bold text-red-700">60 seconds</span> and claim reward
         </p>
       ) : (
         <button

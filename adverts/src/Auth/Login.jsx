@@ -1,9 +1,11 @@
 import React,{useState} from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
+import { Eye, EyeOff } from 'lucide-react'
 
 const Login = () => {
-    const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState(false)
+  const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
@@ -55,18 +57,22 @@ const Login = () => {
                 placeholder="you@example.com"
               />
             </div>
-            <div className="mb-6">
-              <label className="block text-[#9ca3af] mb-2" htmlFor="password">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                onChange={handleChange}
-                className="bg-[#2d3748] w-full p-3 rounded-md text-[#e5e7eb] placeholder:text-[#9ca3af] border border-[#2d3748] focus:ring-[#06b6d4] focus:border-[#06b6d4]"
-                placeholder="••••••••"
-              />
-            </div>
+            <div className="relative mb-4">
+                          <input
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Password"
+                            onChange={handleChange}
+                            className="text-white font-semibold w-full p-3 bg-[#2d3748] rounded-md pr-12"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                          >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          </button>
+                        </div>
             <button
               type="submit"
               disabled={loading}
