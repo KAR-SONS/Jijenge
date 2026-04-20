@@ -7,6 +7,9 @@ import Login from './Auth/Login'
 import Signup from './Auth/Signup'
 import ProtectedRoute from './components/ProtectedRoute'
 import Management from './management/Management'
+import AdminRoute from './Auth/AdminRoute'
+import CreateTask from './management/CreateTask'
+import TaskView from './Tabs/TaskView'
 
 const App = () => {
   return (
@@ -24,6 +27,15 @@ const App = () => {
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path='/manage' element={<Management/>}/>
+        <Route path='/task/watch/:id' element={<TaskView/>}/>
+        <Route
+          path="/admin/create-task"
+          element={
+            <AdminRoute>
+              <CreateTask />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </Router>
   )
