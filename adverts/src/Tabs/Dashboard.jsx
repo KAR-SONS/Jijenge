@@ -77,7 +77,7 @@ const Dashboard = () => {
     // send request to backend
     const token = sessionData.session.access_token
 
-    const res = await fetch('http://localhost:8000/api/withdraw/', {
+    const res = await fetch('https://jijenge-server-production.up.railway.app/api/withdraw/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const Dashboard = () => {
 
     if (!res.ok) throw new Error(result.error)
 
-    alert("✅ Withdrawal request sent!")
+    alert("✅ Withdrawal request sent approval takes upto 2 hours")
     window.location.reload()
 
   } catch (err) {

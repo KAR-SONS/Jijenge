@@ -40,13 +40,13 @@ export default function Hero() {
               </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-[#2d3748]">
+            <div className="grid grid-cols-3 gap-2 pt-8 border-t border-[#2d3748]">
               <div>
                 <p className="text-2xl font-bold text-[#06b6d4]">20K+</p>
                 <p className="text-sm text-[#9ca3af]">Active Users</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-[#06b6d4]">Kes 300k+</p>
+                <p className="text-2xl font-bold text-[#06b6d4]">300k+</p>
                 <p className="text-sm text-[#9ca3af]">Earned & Paid</p>
               </div>
               <div>

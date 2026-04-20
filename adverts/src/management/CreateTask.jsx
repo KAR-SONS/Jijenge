@@ -33,7 +33,7 @@ const CreateTask = () => {
       const { data } = await supabase.auth.getSession()
       const token = data.session.access_token
 
-      const res = await fetch('http://localhost:8000/api/tasks/create/', {
+      const res = await fetch('https://jijenge-server-production.up.railway.app/api/tasks/create/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -92,7 +92,7 @@ const Signup = () => {
 
             <input
               id="phone"
-              placeholder="Phone"
+              placeholder="Phone (M-pesa number)"
               onChange={handleChange}
               className="text-white font-semibold w-full mb-6 p-3 bg-[#2d3748] rounded-md"
             />

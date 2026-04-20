@@ -100,7 +100,7 @@ const Tasks = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="font-semibold text-[#e5e7eb] mb-2 line-clamp-2">
+                <h3 className="text-xl font-semibold text-[#e5e7eb] mb-2 line-clamp-2">
                   {task.title}
                 </h3>
 
