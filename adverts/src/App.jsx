@@ -10,16 +10,9 @@ import Management from './management/Management'
 import AdminRoute from './Auth/AdminRoute'
 import CreateTask from './management/CreateTask'
 import TaskView from './Tabs/TaskView'
-import { Monetag } from '../monetagService'
 
 const App = () => {
-   useEffect(() => {
-    const timer = setTimeout(() => {
-      Monetag.init();
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  
   return (
     <Router>
       <Routes>

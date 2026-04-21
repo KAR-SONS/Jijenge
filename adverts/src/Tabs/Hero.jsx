@@ -9,7 +9,7 @@ export default function Hero() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-card/20 pt-5">
+    <div className="min-h-screen bg-[#0f1419] pt-5 pb-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
