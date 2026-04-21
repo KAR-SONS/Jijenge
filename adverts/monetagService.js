@@ -1,5 +1,5 @@
 export const Monetag = {
-  zoneId: "10905698",
+  zoneId: "10906824",
 
   showInterstitial() {
     const fnName = `show_${this.zoneId}`;
