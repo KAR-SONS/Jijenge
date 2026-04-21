@@ -2,7 +2,7 @@ import { Play } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
-import BottomNavbar from '../components/BottomNavbar'
+import {useTaskAds} from '../../useTaskAds'
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([])
@@ -10,6 +10,7 @@ const Tasks = () => {
   const [completedTasks, setCompletedTasks] = useState([])
   const navigate = useNavigate()
   const [tasksDoneToday, setTasksDoneToday] = useState(0)
+  const { handleRunTask } = useTaskAds(navigate);
 
   useEffect(() => {
     fetchTasks()
@@ -132,7 +133,7 @@ const Tasks = () => {
                   task.remaining_slots <= 0 ||
                   completedTasks.includes(task.id)
                 }
-                onClick={() => navigate(`/task/watch/${task.id}`)}
+                  onClick={() => handleRunTask(task.id)}
                 >
                  {tasksDoneToday >= 5
                   ? "Daily limit reached"
