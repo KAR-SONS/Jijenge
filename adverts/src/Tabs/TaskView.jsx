@@ -48,7 +48,7 @@ const TaskView = () => {
       const { data } = await supabase.auth.getSession()
       const token = data.session.access_token
 
-      const res = await fetch('https://jijenge-server-production.up.railway.app/api/tasks/claim/', {
+      const res = await fetch('https://jijenge-server.onrender.com/api/tasks/claim/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

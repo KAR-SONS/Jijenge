@@ -77,7 +77,7 @@ const Dashboard = () => {
     // send request to backend
     const token = sessionData.session.access_token
 
-    const res = await fetch('https://jijenge-server-production.up.railway.app/api/withdraw/', {
+    const res = await fetch('https://jijenge-server.onrender.com/api/withdraw/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
