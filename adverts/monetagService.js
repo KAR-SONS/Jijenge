@@ -1,28 +1,28 @@
 export const Monetag = {
-  isReady: false,
-
-  init() {
-    // check if script loaded
-    this.isReady = typeof window !== "undefined" && !!window.Monetag;
-  },
+  zoneId: "10905698",
 
   showInterstitial() {
-    if (!this.isReady) {
-      console.warn("Monetag not ready yet");
-      return;
-    }
+    const fnName = `show_${this.zoneId}`;
 
     try {
-      // common Monetag trigger method (varies by format)
-      window.Monetag.show();
+      if (typeof window !== "undefined" && typeof window[fnName] === "function") {
+        window[fnName]();
+        return true;
+      } else {
+        console.warn("Monetag not ready, retrying...");
+
+        // retry once after delay
+        setTimeout(() => {
+          if (typeof window[fnName] === "function") {
+            window[fnName]();
+          }
+        }, 1000);
+
+        return false;
+      }
     } catch (e) {
-      console.log("Monetag fallback trigger");
+      console.error("Monetag error:", e);
+      return false;
     }
-  },
-
-  showPopunder() {
-    try {
-      window.open(window.location.href);
-    } catch (e) {}
   }
 };

@@ -8,15 +8,19 @@ export const useTaskAds = (navigate) => {
     const shouldShowAd = adController.shouldShowAd();
 
     if (shouldShowAd) {
-      adController.recordAdShown();
+      const adTriggered = Monetag.showInterstitial();
 
-      // REAL Monetag ad trigger
-      Monetag.showInterstitial();
+      if (adTriggered) {
+        adController.recordAdShown();
 
-      // small delay so ad registers
-      setTimeout(() => {
+        // give ad time to open properly
+        setTimeout(() => {
+          navigate(`/task/watch/${taskId}`);
+        }, 1800);
+      } else {
+        // fallback if ad didn't trigger
         navigate(`/task/watch/${taskId}`);
-      }, 1500);
+      }
     } else {
       navigate(`/task/watch/${taskId}`);
     }
