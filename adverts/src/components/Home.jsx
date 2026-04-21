@@ -13,7 +13,7 @@ const Home = () => {
     <div className="min-h-screen bg-[#0f1419]" >
         <Navbar />
         <BottomNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <main className="flex-1">
+        <main className="flex-1 pb-16">
           {activeTab === 'home' && <Hero />}
           <ProtectedRoute>
           {activeTab === 'tasks' && <Tasks/>}
