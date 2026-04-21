@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { Eye, EyeOff } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -40,6 +42,7 @@ const Signup = () => {
       if (error) throw error
 
       alert('Signup successful!')
+      navigate('/login')
 
     } catch (err) {
       console.error(err)
