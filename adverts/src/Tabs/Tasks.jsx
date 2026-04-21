@@ -109,7 +109,7 @@ const Tasks = () => {
                   {task.instructions || 'No description provided.'}
                 </p>
 
-                {/* Points + Type */}
+                {/* Points */}
                 <div className="flex items-center justify-between mb-4">
                   <span className="inline-block px-3 py-1 rounded-full bg-[#06b6d4]/20 text-[#06b6d4] text-sm font-bold">
                     +{task.reward_points} pts
