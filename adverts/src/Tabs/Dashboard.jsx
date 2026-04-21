@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext'
 
 const Dashboard = () => {
    const { user } = useAuth()
+   const API_URL = import.meta.env.VITE_API_URL
 
   const [profile, setProfile] = useState(null)
   const [transactions, setTransactions] = useState([])
@@ -77,7 +78,7 @@ const Dashboard = () => {
     // send request to backend
     const token = sessionData.session.access_token
 
-    const res = await fetch('https://jijenge-server.onrender.com/api/withdraw/', {
+    const res = await fetch(`${API_URL}/api/withdraw/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

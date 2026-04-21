@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 
 const TaskView = () => {
   const { id } = useParams()
+  const API_URL = import.meta.env.VITE_API_URL
 
   const [task, setTask] = useState(null)
   const [timeLeft, setTimeLeft] = useState(60)
@@ -48,7 +49,7 @@ const TaskView = () => {
       const { data } = await supabase.auth.getSession()
       const token = data.session.access_token
 
-      const res = await fetch('https://jijenge-server.onrender.com/api/tasks/claim/', {
+      const res = await fetch(`${API_URL}/api/tasks/claim/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

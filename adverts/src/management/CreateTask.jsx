@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
 const CreateTask = () => {
+  const API_URL = import.meta.env.VITE_API_URL
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -33,7 +34,7 @@ const CreateTask = () => {
       const { data } = await supabase.auth.getSession()
       const token = data.session.access_token
 
-      const res = await fetch('https://jijenge-server.onrender.com/api/tasks/create/', {
+      const res = await fetch(`${API_URL}/api/tasks/create/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
