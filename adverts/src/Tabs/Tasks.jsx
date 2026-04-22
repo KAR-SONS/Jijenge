@@ -77,7 +77,10 @@ const Tasks = () => {
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-[#e5e7eb] mb-4">Available Tasks</h1>
           <p className="text-[#9ca3af] text-lg mb-8">
-            Complete any task to earn points. No limits, no catches—just pure rewards.
+            Complete any task to earn points. No limits,no catches—just pure rewards.
+          </p>
+          <p className="text-[#9ca3af] text-lg mb-8">
+            Tasks limit is reloaded everyday at 12:00 Am
           </p>
           <p className="text-[#06b6d4] font-semibold">
             Tasks today: {tasksDoneToday} / 5
