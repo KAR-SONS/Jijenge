@@ -1,11 +1,14 @@
 import { ArrowRight, Sparkles } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { href, useNavigate } from 'react-router-dom'
 
 export default function Hero() {
   const navigate = useNavigate()
   const handleButton = () => {
     navigate('/tasks')
   }
+  const handleWhatsapp = () => {
+  window.open('https://whatsapp.com/channel/0029VbCrFtBKWEKrkrZ2OL3l', '_blank')
+}
 
 
   return (
@@ -37,6 +40,14 @@ export default function Hero() {
                 onClick={handleButton}
               >
                 Start Earning Now <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                size="lg"
+                className="inline-flex items-center justify-center gap-2 h-10 rounded-md px-6 bg-green-600 text-[#0f1419] hover:bg-cyan-500 gap-2 w-full sm:w-auto"
+                onClick={handleWhatsapp}
+              >
+                Join Whatsapp Channel <ArrowRight className="w-4 h-4" />
               </button>
             </div>
 
